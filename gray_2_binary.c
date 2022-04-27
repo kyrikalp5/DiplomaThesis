@@ -12,7 +12,7 @@ float floatmixedimg[8][height][width], byte mixedimg[8][height][width], float fl
 blocktype *block, unsigned long *blockno,unsigned long *total_blockno, blocktype *half_block, unsigned long *half_blockno,
 unsigned long *total_half_blockno) {
 
-    char filename[50];
+        char filename[50];
 	int k,i,j,x,y,att=1,error, max=-1;
 	unsigned long initial_total_block;
 	float Error, tmp, MSEtemp = 0.0, MSE = 0.0, PSNR = 0.0, MAX = 255 * 255;
@@ -43,8 +43,8 @@ unsigned long *total_half_blockno) {
 			g2b[2][i][j] = imgb->b5;
 			g2b[1][i][j] = imgb->b6;
 			g2b[0][i][j] = imgb->b7; // Least significant bitplane
-        }
-    }
+		}
+	}
 
 	*total_blockno = 0;
 	*total_half_blockno = 0;
@@ -71,8 +71,8 @@ unsigned long *total_half_blockno) {
 				g2b[0][i][j] = imgb->b7; // Least significant bitplane
 				floatimg[i][j] = 0.0;
 				finalimg[i][j] = 0;
-        	}
-    	}
+        		}
+    		}
 		for (k=0; k<8; k++) {
 			for (i=0; i<height; i++) {
 				for (j=0; j<width; j++){
@@ -86,7 +86,7 @@ unsigned long *total_half_blockno) {
 		printf("\nattempt No:%d\n", att);
 		*total_blockno = 0;
 		*total_half_blockno = 0;
-    	for (k=0; k<8; k++) {
+    		for (k=0; k<8; k++) {
 			if (k<4) {
 				delta_x = cr - k*((cr/5)+1);
 				//delta_x = 1000;
@@ -104,7 +104,7 @@ unsigned long *total_half_blockno) {
 
 			// call ibr to find gray and white blocks
 			printf("delta_x: %d // ",delta_x);
-       		ibr(height, width, block, blockno, total_blockno, half_block, half_blockno, total_half_blockno, g2b[k], delta_x);
+       			ibr(height, width, block, blockno, total_blockno, half_block, half_blockno, total_half_blockno, g2b[k], delta_x);
 
 			// rebuild float images from gray and white blocks
 			float_rebuild(height, width, block, blockno, half_block, half_blockno, floatmixedimg[k]);
@@ -118,21 +118,23 @@ unsigned long *total_half_blockno) {
 		printf("total blocks: %ld // %ld\n", (*total_blockno)+(*total_half_blockno), initial_total_block);
 		
 		//ΑΝΑΚΑΤΑΣΚΕΥΗ ΤΗΣ GRAY ΕΙΚΟΝΑΣ ΑΠΌ ΤΑ BITPLANES
-		for (x = 0; x < height; x++)
+		for (x = 0; x < height; x++) {
 			for (y = 0; y < width; y++) {
 				for (k = 0; k < 8; k++)
 					floatimg[y][x] += (float)powf(2, k) * floatmixedimg[k][y][x];
-				finalimg[y][x] = (byte)roundf(floatimg[y][x]);
+					finalimg[y][x] = (byte)roundf(floatimg[y][x]);
 			}
+		}
 		write_image("byte_finalimg.raw", height, width, finalimg);
 
 		// ΥΠΟΛΟΓΙΣΜΟΣ ΤΟΥ ΣΦΑΛΜΑΤΟΣ ΑΝΑΜΕΣΑ ΣΤΗΝ ΑΡΧΙΚΗ ΕΙΚΟΝΑ IMG ΚΑΙ ΣΤΗΝ ΑΝΑΚΑΤΑΣΚΕΥΑΣΜΕΝΗ BYTE_FINALIMG
 		Error = 0; tmp = 0;
-		for (i = 0; i < height; i++)
+		for (i = 0; i < height; i++) {
 			for (j = 0; j < width; j++) {
 				Error += pow((image[i][j] - finalimg[i][j]), 2);
 				tmp += pow(image[i][j], 2);
 			}
+		}
 		Error = sqrt(Error / tmp) * 100;
 		error = (int)(Error*100);
 		printf("Error=%f\n", Error);
