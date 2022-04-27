@@ -8,10 +8,10 @@ int main( int argc, char* argv[]) {
 
 	char filename[50];
 	uint image_width, image_height; 
-    unsigned long block_no, half_block_no, total_block_no, total_half_block_no;
+        unsigned long block_no, half_block_no, total_block_no, total_half_block_no;
 	byte **img, ***g2b, ***g2byte, ***mixedimg, **finalimg;
 	float **floatimg, ***floatmixedimg;
-    blocktype *block, *half_block;
+        blocktype *block, *half_block;
 	int k, i, j;
 
 	strcpy(filename, argv[1]);
@@ -20,7 +20,7 @@ int main( int argc, char* argv[]) {
 
 	printf("%s ,%d ,%d \n\n", filename, image_width, image_height);
 
-    // Dynamically allocate memory 
+        // Dynamically allocate memory 
 	img = malloc( image_height * image_width * sizeof(byte));
 	if (!img) {
 		printf("Memory not allocated\n");
@@ -56,28 +56,28 @@ int main( int argc, char* argv[]) {
 		printf("Memory not allocated\n");
 		exit(0);
 	}
-    block = malloc(image_height * (image_width/2) * sizeof(blocktype));
-    if (!block) {
-        printf("Memory not allocated\n");
-        exit(0);
-    }
+        block = malloc(image_height * (image_width/2) * sizeof(blocktype));
+        if (!block) {
+        	printf("Memory not allocated\n");
+        	exit(0);
+        }
 	half_block = malloc(image_height * (image_width/2) * sizeof(blocktype));
-    if (!half_block) {
-        printf("Memory not allocated\n");
-        exit(0);
-    } // End
+        if (!half_block) {
+        	printf("Memory not allocated\n");
+        	exit(0);
+        } // End
 
 	read_image(filename, image_height, image_width, img);
 	gray_2_binary(image_height, image_width, img, g2b, g2byte, floatmixedimg, mixedimg, floatimg, finalimg, block, &block_no, &total_block_no, half_block, &half_block_no, &total_half_block_no); 
 
-    free(img);
+        free(img);
 	free(g2b);
 	free(g2byte);
 	free(floatmixedimg);
 	free(mixedimg);
 	free(floatimg);
 	free(finalimg);
-    free(block);
+        free(block);
 	free(half_block);
 }
 
