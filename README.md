@@ -1,2 +1,2 @@
 # DiplomaThesis
-Image processing; block reprecentation of gray images
+Image processing; block representation of gray images
